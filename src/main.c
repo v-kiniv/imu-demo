@@ -5,18 +5,18 @@
 #include "imupacket.h"
 #include "serial.h"
 
-#define BOARD  3
+// #define BOARD  3
 #include "boards.h"
 
 #ifndef BOARD
-  #define ACC_I2CADDR     0x6b
-  #define ACC_TYPE        ACC_LSM9DS1
-  #define GYRO_I2CADDR    0x6b
-  #define GYRO_TYPE       GYRO_LSM9DS1
-  #define GYRO_ORIENT     { 1, 0, 0, 0, -1, 0, 0, 0, 1 }
-  #define MAG_I2CADDR     0x1e
-  #define MAG_TYPE        MAG_LSM9DS1
-  #define MAG_ORIENT      { -1, 0, 0, 0, -1, 0, 0, 0, 1 }
+  #define ACC_I2CADDR     (0x68)
+  #define ACC_TYPE        ACC_ICM20948
+  #define GYRO_I2CADDR    (0x68)
+  #define GYRO_TYPE       GYRO_ICM20948
+  #define GYRO_ORIENT     { 1, 0, 0, 0, 1, 0, 0, 0, 1 } // gyro & acc axes is aligned
+  #define MAG_I2CADDR     (0x0C)
+  #define MAG_TYPE        MAG_ICM20948
+  #define MAG_ORIENT      { 1, 0, 0, 0, -1, 0, 0, 0, -1 } // invert y and z axes
 #endif
 
 bool s_calibrating = false;
@@ -164,7 +164,7 @@ enum mgos_app_init_result mgos_app_init(void) {
 
   mag_opts.type = MAG_TYPE;
   mag_opts.scale = 8;
-  mag_opts.odr = 10;
+  mag_opts.odr = 100;
   if (MAG_I2CADDR>0 && !mgos_imu_magnetometer_create_i2c(imu, i2c, MAG_I2CADDR, &mag_opts)) {
     LOG(LL_ERROR, ("Cannot create magnetometer on IMU"));
   } else {

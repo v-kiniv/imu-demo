@@ -20,14 +20,15 @@ includes:
 
 config_schema:
   - ["i2c.enable", true]
-  - ["i2c.sda_gpio", 21]
-  - ["i2c.scl_gpio", 22]
+  - ["i2c.sda_gpio", 4]
+  - ["i2c.scl_gpio", 5]
   - ["debug.stdout_uart", -1]
   - ["debug.stderr_uart", -1]
 
 # List of libraries used by this app, in order of initialisation
 libs:
-  - origin: libs/imu
+  - origin: https://github.com/v-kiniv/imu
+    version: master
 
 # Used by the mos tool to catch mos binaries incompatible with this file format
 manifest_version: 2017-05-18
